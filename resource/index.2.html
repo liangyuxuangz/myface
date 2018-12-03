@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="index.css" type="text/css" />
+
+</head>
+
+<body>
+    <div id="app">
+        <div style="height: 30px; background-color:cornflowerblue; ">
+            <p style="line-height:30px;text-align:center">各种操作</P>
+        </div>
+        <div>
+            <el-collapse>
+                <el-collapse-item title="A" name="1">
+                    <div style="float:left; margin-right:5px">
+                        <el-input v-model="input" placeholder="请输入原始数据" style="width: 400px"></el-input>
+                    </div>
+                    <div style="float:left; margin-right:5px">
+                        <el-button round v-on:click="post(dbhandleUrl, 'PList2Rec', input)">导入数据库</el-button>
+                    </div>
+                    <div>
+                        <el-button round v-on:click="input=''">清除</el-button>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item title="B" name="2">
+
+                </el-collapse-item>
+            </el-collapse>
+        </div>
+    </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        vm = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    activeNames: "",
+                    input: {},
+                    dbhandleUrl: 'http://www.myface.com/src/dbhandle.php',
+                    item: {
+                        "a": "1",
+                        "b": "2"
+                    }
+                }
+            },
+            methods: {
+                get: function (url, commandstr, paramstr) {
+                    var commandobj = {
+                        "command": commandstr
+                    };
+                    var paramobj = JSON.parse(paramstr);
+                    var param = Object.assign(commandobj, paramobj);
+                    console.log(param);
+                    this.$http.get(url, param, {
+                        emulateJSON: true
+                    }).then(function (res) {
+                        console.log(res.body);
+                    }, function () {
+                        console.log('请求失败处理');
+                    });
+                },
+                post: function (url, commandstr, paramstr) {
+                    var commandobj = {
+                        "command": commandstr
+                    };
+                    var paramobj = JSON.parse(paramstr);
+                    var param = Object.assign(commandobj, paramobj);
+                    console.log(param);
+                    console.log(url);
+                    this.$http.post(url, param, {
+                        emulateJSON: true
+                    }).then(function (res) {
+                        console.log(res.body)
+                    }, function () {
+                        console.log("请求失败处理")
+                    });
+                }
+                
+            }
+        });
+    }
+</script>
+
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="index.css" type="text/css" />
+
+</head>
+
+<body>
+    <div id="app">
+        <div style="height: 30px; background-color:cornflowerblue;">
+            <p style="line-height:30px;text-align:center">各种操作</P>
+        </div>
+        <el-collapse>
+            <el-collapse-item title="A:通过文本原始数据导入数据库" name="1">
+                <div style="float:left; margin-right:5px">
+                    <el-input v-model="sourceinput" placeholder="请输入原始数据" style="width: 400px"></el-input>
+                </div>
+                <div style="float:left; margin-right:5px">
+                    <el-button round v-on:click="post(source2db, sourceinput)">导入数据库</el-button>
+                </div>
+                <div>
+                    <el-button round v-on:click="sourceinput=''">清除</el-button>
+                </div>
+            </el-collapse-item>
+            <el-collapse-item title="B:人员检索" name="2">
+                <el-row>
+                    <el-form :inline="true" :v-model="form" class="demo-form-inline" size="mini">
+                        <el-form-item label="服务器ID号">
+                            <el-input v-model="form.id" readonly="true" style="width:100px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="人员ID号">
+                            <el-input v-model="form.personId" readonly="true" style="width:200px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="人员姓名">
+                            <el-input v-model="form.name" style="width:100px"></el-input>
+                        </el-form-item>
+                        <el-form-item label="人员类型">
+                            <el-select v-model="form.type">
+                                <el-option label="员工" value="staff"></el-option>
+                                <el-option label="普通顾客" value="customer"></el-option>
+                                <el-option label="注册顾客" value="VIP"></el-option>
+                                <el-option label="普通/注册顾客" value="allCustomer"></el-option>
+                                <el-option label="忠实顾客" value="regularCustomer"></el-option>
+                                <el-option label="新顾客" value="newCustomer"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-switch v-model="form.sex" active-text="男人" inactive-text="女人" active-color="#13ce66" inactive-color="#ff4949">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item label="年龄">
+                            <el-input v-model="form.age" style="width:100px"></el-input>
+                        </el-form-item>
+                    </el-form>
+                </el-row>
+                <el-row>
+                    <el-radio-group v-model="Submit_type">
+                        <el-radio label="服务器ID号"></el-radio>
+                        <el-radio label="人员ID号"></el-radio>
+                        <el-radio label="人员姓名"></el-radio>
+                        <el-radio label="人员性别"></el-radio>
+                        <el-radio label="人员年龄"></el-radio>
+                    </el-radio-group>
+                    <el-button type="primary" @click="onSubmit">查询</el-button>
+                </el-row>
+                <el-row>
+                    <img border="0" src="https://static.tuputech.com/api/image/original/bi-api/storage-0831/2018-11-30/08/5b6eb9668e80690c1b69b254/15435389935220.6712987016426093.jpg" alt="Pulpit rock" width="800" height="450" style="margin:10px">
+                    <br />
+                    <el-button type="primary" @click="preimge">上一个</el-button>
+                    <el-button type="primary" @click="nextimge" style="margin-left:380px">下一个</el-button>
+                </el-row>
+            </el-collapse-item>
+        </el-collapse>
+    </div>
+    </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        vm = new Vue({
+            el: '#app',
+            data: function() {
+                return {
+                    sourceinput: null,
+                    source2db: 'http://www.myface.com/src/source2db.php',
+                    form: {
+                        id: null,
+                        personId: null,
+                        name: "",
+                        type: "",
+                        sex: 0,
+                        age: null
+                    },
+                    Submit_type: "服务器ID号"
+                }
+            },
+            methods: {
+                get: function(url, paramstr) {
+                    var params = new Object();
+                    params.body = paramstr;
+                    console.log(params);
+                    this.$http.get(url, params, {
+                        emulateJSON: true
+                    }).then(function(res) {
+                        console.log(res.body);
+                    }, function() {
+                        console.log('请求失败处理');
+                    });
+                },
+                post: function(url, paramstr) {
+                    var params = new Object();
+                    params.body = paramstr;
+                    console.log(params);
+                    console.log(url);
+                    this.$http.post(url, params, {
+                        emulateJSON: true
+                    }).then(function(res) {
+                        console.log(res.body)
+                    }, function() {
+                        console.log("请求失败处理")
+                    });
+                }
+
+            }
+        });
+    }
+</script>
+
+</html>

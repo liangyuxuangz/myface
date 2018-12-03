@@ -1,0 +1,55 @@
+.el-header,
+.el-footer {
+    background-color: rgb(51, 51, 51);
+    color: rgb(255, 253, 253);
+    text-align: center;
+    font-weight: bold;
+    line-height: 60px;
+}
+
+.el-aside {
+    background-color: #bbb8b8;
+    color: rgb(255, 253, 253);
+    height: auto;
+    text-align: center;
+    line-height: 50px;
+    font-weight: bold;
+}
+
+.el-main {
+    background-color: #1E1E1E;
+    color: #333;
+    text-align: center;
+    line-height: 30px;
+}
+
+.peopleface {
+    width: 512px;
+    height: 288px;
+}
+
+.el-input {
+    width: 200px;
+}
+
+.subitem {
+    float: left;
+    margin-right: 20px;
+    height: 28px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    line-height: 28px;
+}
+
+.button_css {
+    width: 100px;
+    float: left;
+}
+
+.el-select_tags-text {
+    display: inline-block;
+    width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
