@@ -15,7 +15,14 @@
             <p style="line-height:30px;text-align:center">各种操作</P>
         </div>
         <el-collapse>
-            <el-collapse-item title="A:通过文本原始数据导入数据库" name="1">
+            <el-collapse-item title="A：获取当前token">
+                <el-input v-mode="getkeybody.key" placeholder="请输入Key值" size="mini" style="float:left"></el-input>
+                <el-input v-mode="getkeybody.screct" placeholder="请输入screct值" size="mini" style="float:left"></el-input>
+                <el-button size="mini" style="float:left;margin-left:10px;margin-right:10px" type="primary" v-on:click="getkey()">确认</el-button>
+                <div style="float:left;margin-left:10px">当前Token<el-input v-mode="token" readyonly="true" size="mini" style="width:400px;margin-left:10px"></el-input>
+                </div>
+            </el-collapse-item>
+            <el-collapse-item title="B：通过文本原始数据导入数据库" name="1">
                 <div style="float:left; margin-right:5px">
                     <el-input v-model="sourceinput" placeholder="请输入原始数据" style="width: 400px"></el-input>
                 </div>
@@ -26,7 +33,7 @@
                     <el-button round v-on:click="sourceinput=''">清除</el-button>
                 </div>
             </el-collapse-item>
-            <el-collapse-item title="B:人员检索" name="2">
+            <el-collapse-item title="C：人员检索" name="2">
                 <el-row>
                     <el-form :inline="true" :v-model="form" class="demo-form-inline" size="mini">
                         <el-form-item label="服务器ID号">
@@ -49,7 +56,8 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item>
-                            <el-switch v-model="form.sex" active-text="男人" inactive-text="女人" active-color="#13ce66" inactive-color="#ff4949">
+                            <el-switch v-model="form.sex" active-text="男人" inactive-text="女人" active-color="#13ce66"
+                                inactive-color="#ff4949">
                             </el-switch>
                         </el-form-item>
                         <el-form-item label="年龄">
@@ -68,7 +76,8 @@
                     <el-button type="primary" @click="onSubmit">查询</el-button>
                 </el-row>
                 <el-row>
-                    <img border="0" src="https://static.tuputech.com/api/image/original/bi-api/storage-0831/2018-11-30/08/5b6eb9668e80690c1b69b254/15435389935220.6712987016426093.jpg" alt="Pulpit rock" width="800" height="450" style="margin:10px">
+                    <img border="0" src="https://static.tuputech.com/api/image/original/bi-api/storage-0831/2018-11-30/08/5b6eb9668e80690c1b69b254/15435389935220.6712987016426093.jpg"
+                        alt="Pulpit rock" width="800" height="450" style="margin:10px">
                     <br />
                     <el-button type="primary" @click="preimge">上一个</el-button>
                     <el-button type="primary" @click="nextimge" style="margin-left:380px">下一个</el-button>
@@ -84,11 +93,18 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
 <script type="text/javascript">
-    window.onload = function() {
+    window.onload = function () {
         vm = new Vue({
             el: '#app',
-            data: function() {
+            data: function () {
                 return {
+                    key: "",
+                    getkeybody: {
+                        key: null,
+                        screct: null
+                    },
+                    token: null,
+                    getkeyurl: 'http://www.myface.com/src/getkey.php',
                     sourceinput: null,
                     source2db: 'http://www.myface.com/src/source2db.php',
                     form: {
@@ -103,28 +119,34 @@
                 }
             },
             methods: {
-                get: function(url, paramstr) {
+                getkey: function(){
+                    $url=this.getkeyurl;
+                    $params=this.getkeybody;
+                    this.post($url, $params);
+                    consol.log()
+                }, 
+                get: function (url, paramstr) {
                     var params = new Object();
                     params.body = paramstr;
                     console.log(params);
                     this.$http.get(url, params, {
                         emulateJSON: true
-                    }).then(function(res) {
+                    }).then(function (res) {
                         console.log(res.body);
-                    }, function() {
+                    }, function () {
                         console.log('请求失败处理');
                     });
                 },
-                post: function(url, paramstr) {
+                post: function (url, paramstr) {
                     var params = new Object();
                     params.body = paramstr;
                     console.log(params);
                     console.log(url);
                     this.$http.post(url, params, {
                         emulateJSON: true
-                    }).then(function(res) {
+                    }).then(function (res) {
                         console.log(res.body)
-                    }, function() {
+                    }, function () {
                         console.log("请求失败处理")
                     });
                 }
