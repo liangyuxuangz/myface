@@ -18,8 +18,9 @@
             <el-collapse-item title="A：获取当前token">
                 <el-input v-mode="getkeybody.key" placeholder="请输入Key值" size="mini" style="float:left"></el-input>
                 <el-input v-mode="getkeybody.screct" placeholder="请输入screct值" size="mini" style="float:left"></el-input>
-                <el-button size="mini" style="float:left;margin-left:10px;margin-right:10px" type="primary" v-on:click="getkey()">确认</el-button>
-                <div style="float:left;margin-left:10px">当前Token<el-input v-mode="token" readyonly="true" size="mini" style="width:400px;margin-left:10px"></el-input>
+                <el-button size="mini" style="float:left;margin-left:10px;margin-right:10px" type="primary" v-on:click="getkey">确认</el-button>
+                <div style="float:left;margin-left:10px">当前Token<el-input v-mode="token" readyonly="true" size="mini"
+                        style="width:400px;margin-left:10px"></el-input>
                 </div>
             </el-collapse-item>
             <el-collapse-item title="B：通过文本原始数据导入数据库" name="1">
@@ -98,10 +99,12 @@
             el: '#app',
             data: function () {
                 return {
+                    res:null,
+                    res_body: null,
                     key: "",
                     getkeybody: {
-                        key: null,
-                        screct: null
+                        key: 'tgr3cu3q1r63ib85k7lbrcchp1vu1elolbpbqrgl',
+                        screct: '9ld2fq1g2n3pt1sat4cts7060nkndaisql9fjoo7'
                     },
                     token: null,
                     getkeyurl: 'http://www.myface.com/src/getkey.php',
@@ -119,20 +122,20 @@
                 }
             },
             methods: {
-                getkey: function(){
-                    $url=this.getkeyurl;
-                    $params=this.getkeybody;
-                    this.post($url, $params);
-                    consol.log()
-                }, 
+                getkey: function () {
+                    var url = this.getkeyurl;
+                    var params = this.getkeybody;
+                    this.res_body=this.post(url, params);
+                },
                 get: function (url, paramstr) {
                     var params = new Object();
                     params.body = paramstr;
-                    console.log(params);
+                    //console.log(params);
                     this.$http.get(url, params, {
                         emulateJSON: true
                     }).then(function (res) {
-                        console.log(res.body);
+                        //console.log(res.body);
+                        return (res.body);
                     }, function () {
                         console.log('请求失败处理');
                     });
@@ -140,12 +143,14 @@
                 post: function (url, paramstr) {
                     var params = new Object();
                     params.body = paramstr;
-                    console.log(params);
-                    console.log(url);
+                    //console.log(params);
+                    //console.log(url);
                     this.$http.post(url, params, {
                         emulateJSON: true
                     }).then(function (res) {
-                        console.log(res.body)
+                        console.log(res.body+"I am herer.")
+                        //this.res_body=res.body;
+                        return (res.body);
                     }, function () {
                         console.log("请求失败处理")
                     });
