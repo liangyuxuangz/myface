@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+
+</head>
+
+<body>
+    <div id="app">
+        <div style="height: 30px; background-color:cornflowerblue;">
+            <p style="line-height:30px;text-align:center">各种操作</P>
+        </div>
+        <div>
+            <el-input v-model="input">请输入内容</el-input>
+            <el-button v-on:click="go()">操作</el-button>
+        </div>
+    </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        vm = new Vue({
+            el: '#app',
+            data: function () {
+                return {
+                    input: "Hi"
+                }
+            },
+            methods: {
+                go: function () {
+                    var params = new Object();
+                    params.body = null;
+                    this.$http.post('http://www.myface.com/src/test3.php', params.body, {
+                        emulateJSON: true
+                    }).then(function (res) {
+                        //alert(res.data);
+                        this.input = res.data;
+
+                    }, function (res) {
+                        //alert(res.status)
+                        console.log(res);
+                    });
+                }
+            }
+        });
+    }
+</script>
+
+</html>
